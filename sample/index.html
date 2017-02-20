@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+<script >
+    process={
+        env :{
+            NODE_ENV:'production'
+        }
+    }
+    wantGlobal={
+        moduleList:{},
+        want:function(ref){
+            return wantGlobal.moduleList[ref]
+        },
+        require: function(id){
+
+            var path=wantGlobal.path;
+
+            return function (ref){
+
+                function applyPostfix(refParam){
+                    var newRef
+                    if(refParam.endsWith('/')){
+                        newRef=refParam+"index.js"
+                    }else if(refParam.endsWith(".js")){
+
+                    }else{
+                        newRef=refParam+".js"
+
+                    }
+                    return newRef;
+                }
+                var key
+                if(ref.startsWith('.')){
+                    var newRef=applyPostfix(ref)
+                    key = path.resolve(path.dirname(id),newRef)
+
+                }else if(ref.startsWith('/')){
+
+                }else if(ref.indexOf('/')!==-1){
+                    key=applyPostfix('/node_modules/'+ref)
+                }else {
+                    key=applyPostfix('/node_modules/'+ref+'/')
+                    if(!wantGlobal.moduleList[key]){
+                        key=key.replace('index.js',ref+".js")
+                    }
+                    wantGlobal.moduleList[ref]=wantGlobal.moduleList[key].exports
+
+                }
+                var module=wantGlobal.moduleList[key];
+                if(module) {
+                    return module.exports
+
+                }else{
+                    console.log(id+' : '+ref)
+                }
+
+            }
+        }
+    }
+</script>
+<script type="application/javascript" src="path.js"></script>
+</body>
+</html>
