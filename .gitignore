@@ -1,4 +1,7 @@
 /node_modules/
 /.idea/
-/test/
+/test/apps/*/node_modules/
 /sample/node_modules/
+/try/
+todo.md
+npm-debug.log

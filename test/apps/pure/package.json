@@ -1,0 +1,15 @@
+{
+  "name": "pure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "feServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "wantjs": "../../../"
+  },
+  "license": "ISC"
+}
